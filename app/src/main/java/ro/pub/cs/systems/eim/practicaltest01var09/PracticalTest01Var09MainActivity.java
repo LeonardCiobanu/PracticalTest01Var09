@@ -1,16 +1,22 @@
 package ro.pub.cs.systems.eim.practicaltest01var09;
 
+import static ro.pub.cs.systems.eim.practicaltest01var09.Constants.SUM_OF_NUMBERS;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.util.Arrays;
 
 public class PracticalTest01Var09MainActivity extends AppCompatActivity {
 
@@ -38,6 +44,17 @@ public class PracticalTest01Var09MainActivity extends AppCompatActivity {
             }
         }
     }
+    private ComputeButtonListener computeButtonListener = new ComputeButtonListener();
+    private class ComputeButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(getApplicationContext(), PracticalTest01Var09SecondaryActivity.class);
+            String all_terms_string = String.valueOf(all_terms.getText());
+
+            intent.putExtra(SUM_OF_NUMBERS, all_terms_string);
+            startActivity(intent);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,5 +72,14 @@ public class PracticalTest01Var09MainActivity extends AppCompatActivity {
         compute = (Button)findViewById(R.id.compute);
 
         add.setOnClickListener(addButtonListener);
+        compute.setOnClickListener(computeButtonListener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == Constants.SECONDARY_ACTIVITY_REQUEST_CODE) {
+            Toast.makeText(this, "The activity returned with result " + resultCode, Toast.LENGTH_LONG).show();
+        }
     }
 }
