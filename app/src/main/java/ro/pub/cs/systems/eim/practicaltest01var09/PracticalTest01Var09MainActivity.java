@@ -19,7 +19,25 @@ public class PracticalTest01Var09MainActivity extends AppCompatActivity {
     private TextView all_terms;
     private Button compute;
 
+    private AddButtonListener addButtonListener = new AddButtonListener();
+    private class AddButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
 
+            int next_term_string = 0;
+            try {
+                next_term_string = Integer.valueOf(next_term.getText().toString());
+                if (all_terms.getText().equals("")) {
+                    all_terms.setText(String.valueOf(next_term_string));
+                } else {
+                    all_terms.setText(all_terms.getText() + " + " + next_term_string);
+                }
+                next_term.setText("");
+            } catch (Exception e) {
+
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,5 +54,6 @@ public class PracticalTest01Var09MainActivity extends AppCompatActivity {
         all_terms = (TextView) findViewById(R.id.all_terms);
         compute = (Button)findViewById(R.id.compute);
 
+        add.setOnClickListener(addButtonListener);
     }
 }
